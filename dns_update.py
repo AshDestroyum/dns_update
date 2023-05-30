@@ -6,6 +6,7 @@ import subprocess
 import sys
 import ctypes
 import os
+from time import sleep
 
 # Checking for elevated privileges
 def is_admin():
@@ -17,7 +18,9 @@ def is_admin():
 if is_admin():
     pass
 else:
-    sys.exit("Not running with elevated privileges.")
+    print("Not running with elevated privileges.")
+    sleep(3)
+    sys.exit()
 
 
 # To display current adapter
@@ -56,13 +59,25 @@ print(f"Current DNS: {current_dns(current_conn())}")
 
 
 # DNS input
-dns = input("Enter the DNS for the adapter:\n")
+dns = input("Enter the DNS for the adapter, leave empty then press enter to reset:\n")
 text = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j',
 'k','l','m','n','o','p','q',
 'r','s','t','u','v','w','x','y',
 'z','!','@','#','$','%','^','&','*','(',')','_','+','{','}','|',':','<','>','?','`','~']
 
 # Checking conidtions for DNS
+
+# To reset DNS settings
+if dns == "":
+	reset = f"Set-DnsClientServerAddress -InterfaceAlias '{current_conn()}' -ResetServerAddresses"
+	subprocess.run(["Powershell", "-Command", reset])
+	print("DNS reset complete!")
+	sleep(3)
+	sys.exit()
+else:
+	pass
+
+
 if len(dns) > 15:
 	sys.exit("This is not a real DNS...")
 
@@ -79,4 +94,10 @@ rule3 = f"Set-DnsClientServerAddress -InterfaceAlias '{current_conn()}' -ServerA
 result = subprocess.run(["Powershell", "-Command", rule3])
 
 print("DNS change complete!")
+
+sleep(3)
+
+
+
+
 
