@@ -6,6 +6,7 @@ import subprocess
 import sys
 import ctypes
 import os
+import re
 from time import sleep
 
 # Checking for elevated privileges
@@ -14,13 +15,6 @@ def is_admin():
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
         return False
-
-if is_admin():
-    pass
-else:
-    print("Not running with elevated privileges.")
-    sleep(3)
-    sys.exit()
 
 
 # To display current adapter
@@ -53,51 +47,57 @@ def current_dns(connection_name):
 
 	return now_dns
 
-print(f"Current connection: {current_conn()}")
-
-print(f"Current DNS: {current_dns(current_conn())}")
 
 
-# DNS input
-dns = input("Enter the DNS for the adapter, leave empty then press enter to reset:\n")
-text = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j',
-'k','l','m','n','o','p','q',
-'r','s','t','u','v','w','x','y',
-'z','!','@','#','$','%','^','&','*','(',')','_','+','{','}','|',':','<','>','?','`','~']
+def validate_dns(dns):
+	# Validating  DNS input
+	valid = re.compile("\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b")
 
-# Checking conidtions for DNS
+	if valid.match(dns) is None:
+		sys.exit("This is not a valid IPv4 DNS...")
 
-# To reset DNS settings
-if dns == "":
-	reset = f"Set-DnsClientServerAddress -InterfaceAlias '{current_conn()}' -ResetServerAddresses"
-	subprocess.run(["Powershell", "-Command", reset])
-	print("DNS reset complete!")
-	sleep(3)
-	sys.exit()
-else:
-	pass
+	# Checking conidtions for DNS
 
-
-if len(dns) > 15:
-	sys.exit("This is not a real DNS...")
-
-for char in dns:
-
-	if char in text:
-		sys.exit("This is not a real DNS...There is text.")
+	# To reset DNS settings
+	if dns == "":
+		reset = f"Set-DnsClientServerAddress -InterfaceAlias '{current_conn()}' -ResetServerAddresses"
+		subprocess.run(["Powershell", "-Command", reset])
+		print("DNS reset complete!")
+		sleep(3)
+		sys.exit()
+	else:
+		pass
 
 
-
+def set_dns(dns):
 # Setting the DNS
-rule3 = f"Set-DnsClientServerAddress -InterfaceAlias '{current_conn()}' -ServerAddresses ('{dns}')"
+	rule3 = f"Set-DnsClientServerAddress -InterfaceAlias '{current_conn()}' -ServerAddresses ('{dns}')"
 
-result = subprocess.run(["Powershell", "-Command", rule3])
+	result = subprocess.run(["Powershell", "-Command", rule3])
 
-print("DNS change complete!")
+	print("DNS change complete!")
 
-sleep(3)
+	sleep(3)
+
+def main():
+	if is_admin():
+		pass
+	else:
+		print("Not running with elevated privileges.")
+		sleep(3)
+		sys.exit()
+
+	print(f"Current connection: {current_conn()}")
+
+	print(f"Current DNS: {current_dns(current_conn())}")
+
+	dns = input("Enter the DNS for the adapter, leave empty then press enter to reset:\n")
+
+	validate_dns(dns)
+
+	set_dns(dns)
 
 
 
-
-
+if __name__ == "__main__":
+	main()
