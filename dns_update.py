@@ -50,14 +50,6 @@ def current_dns(connection_name):
 
 
 def validate_dns(dns):
-	# Validating  DNS input
-	valid = re.compile("\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b")
-
-	if valid.match(dns) is None:
-		print("This is not a valid IPv4 DNS...")
-		sleep(3)
-		sys.exit()
-
 	# Checking conidtions for DNS
 
 	# To reset DNS settings
@@ -69,6 +61,15 @@ def validate_dns(dns):
 		sys.exit()
 	else:
 		pass
+	
+	# Validating  DNS input
+	valid = re.compile("(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))")
+
+	if valid.match(dns) is None:
+		print("This is not a valid IPv4 DNS...")
+		sleep(3)
+		sys.exit()
+
 
 
 def set_dns(dns):
