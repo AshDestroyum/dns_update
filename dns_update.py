@@ -55,6 +55,7 @@ def validate_dns(dns):
 
 	if valid.match(dns) is None:
 		sys.exit("This is not a valid IPv4 DNS...")
+		sleep(3)
 
 	# Checking conidtions for DNS
 
