@@ -54,8 +54,9 @@ def validate_dns(dns):
 	valid = re.compile("\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b")
 
 	if valid.match(dns) is None:
-		sys.exit("This is not a valid IPv4 DNS...")
+		print("This is not a valid IPv4 DNS...")
 		sleep(3)
+		sys.exit()
 
 	# Checking conidtions for DNS
 
