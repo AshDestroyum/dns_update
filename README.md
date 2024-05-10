@@ -18,6 +18,6 @@ A simple Python script that allows you to change DNS with ease, only for Windows
 
 <p align="center"> Powershell w/ ipconfig /all </br> <img src="https://i.imgur.com/Xf9ZegJ.png" height="80%" width="80%" alt="DNS window"/> </p>
 
-<p align="center"> Control Center confirming updated DNS </br> <img src="https://i.imgur.com/1LzZ2pp.png" height="80%" width="80%" alt="DNS window"/> </p>
+<p align="center"> Control Center confirming updated DNS </br> <img src="https://i.imgur.com/1LzZ2pp.png" height="60%" width="60%" alt="DNS window"/> </p>
 
 At the moment the progam is able to change only the primary DNS 
