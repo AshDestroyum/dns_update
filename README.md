@@ -1,5 +1,20 @@
 # dns_update
-A simple Python script that allows you to change DNS with ease, only for Windows. Requires admin privileges.
+A simple Python script that allows you to change the **primary** DNS with ease, only for **Windows**. Requires admin privileges.
+
+# How to install
+
+1. Clone the repo
+
+`git clone https://github.com/AshDestroyum/dns_update.git`
+
+2. Use pip to install required modules:
+
+`pip install -r requirements.txt`
+
+3. Use the following command to create the exe:
+
+`pyinstaller dns_update.py --onefile -i dns_icon.ico`
+
 
 # How to use
 
@@ -20,4 +35,4 @@ A simple Python script that allows you to change DNS with ease, only for Windows
 
 <p align="center"> Control Center confirming updated DNS </br> <img src="https://i.imgur.com/1LzZ2pp.png" height="60%" width="60%" alt="DNS window"/> </p>
 
-At the moment the progam is able to change only the primary DNS 
+At the moment the progam is able to change only the **primary** DNS 
